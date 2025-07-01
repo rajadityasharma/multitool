@@ -81,11 +81,9 @@ def background_remover(request):
 
     return render(request, 'background_remover.html', {'image_data': image_data})
 
-
-
-
-def home(request):
-    return redirect('remove_bg')  
+  
+def dashboard(request):
+    return render(request, 'dashboard.html')
 
 def image_enhancer(request):
     enhanced_image = None

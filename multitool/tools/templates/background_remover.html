@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
+  {% load static %}
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Background Remover</title>
-
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-
-  <style>
+  <title>Background Remover</title>  <!-- Bootstrap 5 CSS -->  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />  <!-- Google Fonts -->  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />  <style>
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(120deg, #e0f7fa, #ffffff);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .card {
@@ -29,6 +18,7 @@
       padding: 30px;
       max-width: 550px;
       width: 100%;
+      margin: 50px auto;
     }
 
     .form-label {
@@ -59,75 +49,101 @@
       font-size: 2rem;
       color: #0066ff;
     }
-  </style>
-</head>
 
+    .navbar-custom {
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+    }
+    .navbar-brand {
+      font-weight: bold;
+      color: white !important;
+    }
+    .navbar-nav .nav-link {
+      color: white !important;
+      font-weight: 500;
+    }
+    .navbar-nav .nav-link:hover {
+      text-decoration: underline;
+    }
+  </style></head>
 <body>
-  <div class="card text-center">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom shadow">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img src="{% static "image/ToolMitra_Logo.png" %}" alt="ToolMitra" style="height: 50px;"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/remove-background/">Background Remover</a></li>
+          <li class="nav-item"><a class="nav-link" href="/enhance-image/">Image Enhancer</a></li>
+          <li class="nav-item"><a class="nav-link" href="/compress-image/">Image Compressor</a></li>
+          <li class="nav-item"><a class="nav-link" href="/crop-image/">Crop Image</a></li>
+          <li class="nav-item"><a class="nav-link" href="/image-to-pdf/">Image to PDF</a></li>
+          <li class="nav-item"><a class="nav-link" href="/stamp-file/">Stamp Tool</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/rajadityasharma/multitool" target="_blank">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>  <div class="card text-center">
     <div class="mb-3">
       <div class="heading-icon">🧠</div>
       <h3 class="fw-bold mt-2">Smart Background Remover</h3>
       <p class="text-muted small">Upload an image and customize the background in one click!</p>
-    </div>
-
-    <form method="POST" enctype="multipart/form-data" class="text-start">
-      {% csrf_token %}
-      <div class="mb-3">
-        <label for="image" class="form-label">Upload Image</label>
-        <input class="form-control" type="file" name="image" id="image" required>
-      </div>
-
-      <div class="mb-3">
-        <label for="bg_type" class="form-label">Choose Background Type</label>
-        <select class="form-select" name="bg_type" id="bg_type" required>
-          <option value="transparent">Transparent (Default)</option>
-          <option value="color">Solid Color</option>
-          <option value="gradient">Gradient</option>
-          <option value="image">Upload Background Image</option>
-        </select>
-      </div>
-
-      <div class="mb-3" id="colorPicker" style="display: none;">
-        <label for="color" class="form-label">Select Color</label>
-        <input class="form-control form-control-color" type="color" name="color" value="#ffffff">
-      </div>
-
-      <div class="mb-3" id="gradientPicker" style="display: none;">
-        <label for="gradient_top" class="form-label">Gradient Top Color</label>
-        <input class="form-control form-control-color" type="color" name="gradient_top" value="#ffffff">
-        <label for="gradient_bottom" class="form-label mt-2">Gradient Bottom Color</label>
-        <input class="form-control form-control-color" type="color" name="gradient_bottom" value="#cccccc">
-
-        <label for="gradient_direction" class="form-label mt-2">Gradient Direction</label>
-        <select class="form-select" name="gradient_direction">
-          <option value="vertical">Vertical</option>
-          <option value="horizontal">Horizontal</option>
-          <option value="diagonal">Diagonal</option>
-        </select>
-      </div>
-
-      <div class="mb-3" id="bgImageInput" style="display: none;">
-        <label for="bg_image" class="form-label">Upload Background Image</label>
-        <input class="form-control" type="file" name="bg_image">
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100">Remove Background</button>
-    </form>
-
-    {% if image_data %}
-    <div class="output-section mt-4">
-      <h5 class="mb-3 fw-semibold">🎉 Background Processed:</h5>
-      <img src="data:image/png;base64,{{ image_data }}" alt="Processed Image"/>
-      <br />
-      <a href="data:image/png;base64,{{ image_data }}" download="output.png" class="btn btn-success download-btn">⬇ Download Image</a>
-    </div>
-    {% endif %}
+    </div><form method="POST" enctype="multipart/form-data" class="text-start">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="image" class="form-label">Upload Image</label>
+    <input class="form-control" type="file" name="image" id="image" required>
   </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="mb-3">
+    <label for="bg_type" class="form-label">Choose Background Type</label>
+    <select class="form-select" name="bg_type" id="bg_type" required>
+      <option value="transparent">Transparent (Default)</option>
+      <option value="color">Solid Color</option>
+      <option value="gradient">Gradient</option>
+      <option value="image">Upload Background Image</option>
+    </select>
+  </div>
 
-  <script>
+  <div class="mb-3" id="colorPicker" style="display: none;">
+    <label for="color" class="form-label">Select Color</label>
+    <input class="form-control form-control-color" type="color" name="color" value="#ffffff">
+  </div>
+
+  <div class="mb-3" id="gradientPicker" style="display: none;">
+    <label for="gradient_top" class="form-label">Gradient Top Color</label>
+    <input class="form-control form-control-color" type="color" name="gradient_top" value="#ffffff">
+    <label for="gradient_bottom" class="form-label mt-2">Gradient Bottom Color</label>
+    <input class="form-control form-control-color" type="color" name="gradient_bottom" value="#cccccc">
+
+    <label for="gradient_direction" class="form-label mt-2">Gradient Direction</label>
+    <select class="form-select" name="gradient_direction">
+      <option value="vertical">Vertical</option>
+      <option value="horizontal">Horizontal</option>
+      <option value="diagonal">Diagonal</option>
+    </select>
+  </div>
+
+  <div class="mb-3" id="bgImageInput" style="display: none;">
+    <label for="bg_image" class="form-label">Upload Background Image</label>
+    <input class="form-control" type="file" name="bg_image">
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100">Remove Background</button>
+</form>
+
+{% if image_data %}
+<div class="output-section mt-4">
+  <h5 class="mb-3 fw-semibold">🎉 Background Processed:</h5>
+  <img src="data:image/png;base64,{{ image_data }}" alt="Processed Image"/>
+  <br />
+  <a href="data:image/png;base64,{{ image_data }}" download="output.png" class="btn btn-success download-btn">⬇ Download Image</a>
+</div>
+{% endif %}
+
+  </div>  <!-- Bootstrap JS -->  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  <script>
     const bgTypeSelect = document.getElementById('bg_type');
     const colorPicker = document.getElementById('colorPicker');
     const gradientPicker = document.getElementById('gradientPicker');
@@ -139,6 +155,5 @@
       gradientPicker.style.display = selected === 'gradient' ? 'block' : 'none';
       bgImageInput.style.display = selected === 'image' ? 'block' : 'none';
     });
-  </script>
-</body>
+  </script></body>
 </html>
