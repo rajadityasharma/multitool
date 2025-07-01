@@ -7,6 +7,7 @@ import io
 from fpdf import FPDF
 import tempfile
 import os
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 def background_remover(request):
@@ -226,3 +227,31 @@ def image_to_pdf(request):
                         pass
 
     return render(request, 'image_to_pdf.html', {'pdf_data': pdf_data})
+
+
+def image_cropper(request):
+    return render(request, 'image_cropper.html')
+
+
+def stamp_file(request):
+    base_image_data = None
+    stamp_image_data = None
+
+    if request.method == 'POST':
+        base_file = request.FILES.get('base_file')
+        stamp_file_obj = request.FILES.get('stamp_file')
+
+        try:
+            base_file.seek(0)
+            base_image_data = base64.b64encode(base_file.read()).decode('utf-8')
+
+            stamp_file_obj.seek(0)
+            stamp_image_data = base64.b64encode(stamp_file_obj.read()).decode('utf-8')
+
+        except Exception as e:
+            print("Error:", e)
+
+    return render(request, 'stamp_file.html', {
+        'base_image_data': base_image_data,
+        'stamp_image_data': stamp_image_data,
+    })
